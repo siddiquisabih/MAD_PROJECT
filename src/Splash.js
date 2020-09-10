@@ -1,18 +1,36 @@
 import React, { Component } from 'react'
 import { Text, View, SafeAreaView } from 'react-native'
+import { Actions } from 'react-native-router-flux';
+import RouteKey from './Router/routeKey';
+import Global from './Global';
 
 
 export default class Splash extends Component {
 
 
-    // componentDidMount() {
-    //     setTimeout(() => {
-    //         Actions[RouteKey.LOGIN]()
-    //         // Actions[RouteKey.REGISTER]()
-    //         console.log(this.props)
-    //     }, 3000);
+    componentDidMount() {
+        setTimeout(() => {
+            this.checkLogin()
+        }, 3000);
 
-    // }
+    }
+ 
+ 
+ 
+    checkLogin() {
+        Global.getData(Global.userStorageKey)
+            .then((res) => {
+                console.log(res)
+                if (res != null) {
+                    Actions[RouteKey.DRAWER]()
+                }
+                else{
+                    Actions[RouteKey.LOGIN]()
+
+                }
+            })
+
+    }
 
 
     render() {

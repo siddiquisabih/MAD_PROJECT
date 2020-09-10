@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage"
+import { AsyncStorage } from "react-native"
 
 
 
@@ -6,8 +6,8 @@ import AsyncStorage from "@react-native-community/async-storage"
 class Global {
 
 
-    static userStorageKey = "user"
-    static monthDataKey = "monthData"
+    static userStorageKey = "userkey"
+    static monthDataKey = "monthDatsssa"
 
     static monthName = [
         { name: "January", id: 0 },
@@ -30,29 +30,23 @@ class Global {
 
     static saveData(key, detail) {
         var data = JSON.stringify(detail)
-        return new Promise((resolve)=>{
+        return new Promise((resolve) => {
             console.log(data)
             AsyncStorage.setItem(key, data)
-            .then((res)=>{
-                resolve(res)
-            })
+                .then((res) => {
+                    resolve(res)
+                })
         })
     }
 
-    static async getData(key) {
+    static getData(key) {
         var data = null
         return new Promise((resolve) => {
-              AsyncStorage.getItem(key)
+            AsyncStorage.getItem(key)
                 .then((res) => {
-                    if (!res) {
-                        console.log(res,'get')
-                        data = JSON.parse(res)
-                        resolve(data)
-                    }
-                    else {
-                        resolve(data)
-                    }
-
+                    console.log(res, 'get')
+                    data = JSON.parse(res)
+                    resolve(data)
                 })
         })
 

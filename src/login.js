@@ -1,32 +1,43 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TextInput, SafeAreaView, Image } from 'react-native'
-import CustomAlert from '../utils/customAlert'
-import Global from './global'
+import CustomAlert from './customAlert'
+import Global from './Global'
+import { Actions } from 'react-native-router-flux'
+import RouteKey from './Router/routeKey'
 
 
 
 
 
 
- class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: "",
-            password: "",
+            username: "admin",
+            password: "admin",
             showModel: false,
             message: "",
             loading: false,
         }
     }
+
+
+
+
+    componentDidMount() {
+        this.setState({ showModel: true, message: "Login id is admin and Password is admin" })
+    }
+
+
+
     login() {
-        // Actions[RouteKey.DRAWER]()
-        
+
     }
 
     validate() {
         // Actions[RouteKey.DRAWER]()
-        var { username, password,   } = this.state
+        var { username, password, } = this.state
 
         if (username.trim() == "" || username.length < 5) {
             return this.setState({ showModel: true, message: "Invalid username" })
@@ -34,24 +45,27 @@ import Global from './global'
         if (password.trim() == "" || password.length < 5) {
             return this.setState({ showModel: true, message: "Invalid password" })
         }
-       
-       
-    if(username.toLowerCase() === "admin" && password.toLowerCase() === "admin"){
-        Global.saveData(Global.userStorageKey , true)
-        //navigate
-    }        
-    else{
-        return this.setState({ showModel: true, message: "Inavlid username and password" })
-    }
+
+
+        if (username.trim().toLowerCase() === "admin" && password.trim().toLowerCase() === "admin") {
+            Global.saveData(Global.userStorageKey, "data")
+            //navigate
+            Actions[RouteKey.DRAWER]()
+
+
+        }
+        else {
+            return this.setState({ showModel: true, message: "Inavlid username and password" })
+        }
 
 
 
     }
 
-     
+
     render() {
         return (
-            <SafeAreaView style={{ alignContent: "center", justifyContent: "center", flex: 1,backgroundColor :"#2279a4",  }}>
+            <SafeAreaView style={{ alignContent: "center", justifyContent: "center", flex: 1, backgroundColor: "#2279a4", }}>
 
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                     <Text style={styles.authText}>Authentication</Text>
@@ -59,22 +73,22 @@ import Global from './global'
                 <View style={{ flex: 2, }}>
                     <View style={styles.container}>
                         <Text style={styles.headingText}> User Name </Text>
-                        <TextInput placeholderTextColor="white" placeholder="Enter User Name (admin)" onChangeText={(username)=>{this.setState({username})}} style={styles.inputBox} />
+                        <TextInput placeholderTextColor="white" placeholder="Enter User Name (admin)" onChangeText={(username) => { this.setState({ username }) }} style={styles.inputBox} />
                     </View>
 
                     <View style={styles.container}>
                         <Text style={styles.headingText}> Password </Text>
-                        <TextInput placeholderTextColor="white" placeholder="Enter Password (admin)"   onChangeText={(password)=>{this.setState({password})}} style={styles.inputBox} />
+                        <TextInput placeholderTextColor="white" secureTextEntry placeholder="Enter Password (admin)" onChangeText={(password) => { this.setState({ password }) }} style={styles.inputBox} />
                     </View>
                     <View style={styles.buttonContainer}>
-                <Text onPress={this.validate.bind(this)} style={[styles.buttonText]}  >login </Text>
-            </View>
+                        <Text onPress={this.validate.bind(this)} style={[styles.buttonText]}  >login </Text>
+                    </View>
                 </View>
 
 
 
 
-                    {this.state.showModel && (
+                {this.state.showModel && (
                     <CustomAlert
                         close={() => {
                             this.setState({ showModel: false, loading: false });
@@ -93,7 +107,7 @@ import Global from './global'
 const styles = StyleSheet.create({
     container: {
         marginHorizontal: 30,
-        
+
 
     },
     headingText: {
@@ -109,23 +123,23 @@ const styles = StyleSheet.create({
     button: {
         marginVertical: 25
     },
-    buttonContainer :{
+    buttonContainer: {
         // alignItems :"center",
-        marginVertical:15,
-        marginHorizontal:15,
+        marginVertical: 15,
+        marginHorizontal: 15,
     },
-    buttonText:{
-        fontSize :18,
-        textAlign:"center",
+    buttonText: {
+        fontSize: 18,
+        textAlign: "center",
     },
-    authText:{
-        fontSize :20,
-        color:"white"
+    authText: {
+        fontSize: 20,
+        color: "white"
     }
-        
+
 
 })
 
- 
+
 
 export default Login
